@@ -1,24 +1,5 @@
 
-import { createClient } from "@supabase/supabase-js";
-
-// Get environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Check if environment variables are defined
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error("Supabase environment variables are not set. Please check your .env file.");
-  
-  // Provide fallback values when in development to avoid crashes
-  if (import.meta.env.DEV) {
-    console.warn("Using placeholder values for Supabase in development mode.");
-  }
-}
-
-export const supabase = createClient(
-  supabaseUrl || "https://placeholder-url.supabase.co", 
-  supabaseAnonKey || "placeholder-key"
-);
+import { supabase } from "@/integrations/supabase/client";
 
 export type Transaction = {
   id: string;
@@ -36,3 +17,6 @@ export const transactionCategories = {
   income: ["Salary", "Freelance", "Investments", "Gift", "Other"],
   expense: ["Food", "Housing", "Transport", "Entertainment", "Utilities", "Healthcare", "Education", "Shopping", "Other"]
 };
+
+// Re-export supabase for backward compatibility
+export { supabase };

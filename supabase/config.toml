@@ -1,1 +1,16 @@
+
 project_id = "vtdkbrakyeyprgdyzzfo"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+
+[db]
+port = 54322
+
+[functions]
+port = 54323
+
+[studio]
+port = 54324

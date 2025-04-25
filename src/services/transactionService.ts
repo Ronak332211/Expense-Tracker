@@ -1,5 +1,6 @@
 
-import { supabase, Transaction, TransactionInput } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
+import { Transaction, TransactionInput } from "@/lib/supabase";
 
 export const getTransactions = async (): Promise<Transaction[]> => {
   const { data, error } = await supabase
