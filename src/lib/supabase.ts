@@ -1,6 +1,6 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
+// Define the transaction types explicitly instead of relying on Database generic
 export type Transaction = {
   id: string;
   created_at: string;
@@ -9,9 +9,10 @@ export type Transaction = {
   category: string;
   description: string;
   date: string;
+  user_id?: string; // Make user_id optional to handle both schemas
 };
 
-export type TransactionInput = Omit<Transaction, "id" | "created_at">;
+export type TransactionInput = Omit<Transaction, "id" | "created_at" | "user_id">;
 
 export const transactionCategories = {
   income: ["Salary", "Freelance", "Investments", "Gift", "Other"],

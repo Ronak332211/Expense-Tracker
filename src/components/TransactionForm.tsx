@@ -1,6 +1,7 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { 
   Form,
   FormControl,
@@ -28,11 +29,22 @@ interface TransactionFormProps {
   onTransactionAdded: () => void;
 }
 
+// Create a schema for form validation
+const formSchema = z.object({
+  amount: z.number().min(0.01, "Amount must be greater than 0"),
+  type: z.enum(["income", "expense"]),
+  category: z.string().min(1, "Please select a category"),
+  description: z.string().optional(),
+  date: z.string().min(1, "Please select a date"),
+});
+
 export default function TransactionForm({ onTransactionAdded }: TransactionFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [transactionType, setTransactionType] = useState<"income" | "expense">("expense");
+  const [errorDetails, setErrorDetails] = useState<string | null>(null);
   
   const form = useForm<TransactionInput>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       amount: 0,
       type: "expense",
@@ -45,6 +57,24 @@ export default function TransactionForm({ onTransactionAdded }: TransactionFormP
   const onSubmit = async (data: TransactionInput) => {
     try {
       setIsSubmitting(true);
+      setErrorDetails(null);
+      
+      // Validate required fields
+      if (!data.category) {
+        toast.error("Please select a category");
+        return;
+      }
+      
+      if (!data.date) {
+        toast.error("Please select a date");
+        return;
+      }
+      
+      if (data.amount <= 0) {
+        toast.error("Amount must be greater than 0");
+        return;
+      }
+      
       if (data.type === "expense") {
         // Make amount negative for expenses
         data.amount = Math.abs(data.amount) * -1;
@@ -63,9 +93,11 @@ export default function TransactionForm({ onTransactionAdded }: TransactionFormP
         description: "",
         date: new Date().toISOString().slice(0, 10),
       });
-    } catch (error) {
-      toast.error("Failed to add transaction");
-      console.error(error);
+    } catch (error: any) {
+      const errorMessage = error?.message || "Failed to add transaction";
+      toast.error(errorMessage);
+      setErrorDetails(JSON.stringify(error, null, 2));
+      console.error("Transaction error:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -206,6 +238,13 @@ export default function TransactionForm({ onTransactionAdded }: TransactionFormP
           >
             {isSubmitting ? "Adding..." : "Add Transaction"}
           </Button>
+          
+          {errorDetails && (
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-700 font-mono whitespace-pre-wrap">
+              <div className="font-semibold mb-1">Error Details:</div>
+              {errorDetails}
+            </div>
+          )}
         </form>
       </Form>
     </div>
