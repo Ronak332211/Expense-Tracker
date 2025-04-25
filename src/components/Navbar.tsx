@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, UserCircle2 } from "lucide-react";
+import { LogOut, UserCircle2, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -20,8 +20,9 @@ export default function Navbar() {
   return (
     <nav className="bg-white border-b border-gray-200 px-4 py-3">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold text-purple-600">
-          Balance Sheet Pro
+        <Link to="/dashboard" className="flex items-center text-xl font-bold text-purple-600">
+          <BarChart3 className="h-5 w-5 mr-2" />
+          ExpenseEdge
         </Link>
 
         {user && (

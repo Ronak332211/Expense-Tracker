@@ -171,7 +171,7 @@ export default function Index() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Balance Sheet</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">Your ExpenseEdge Dashboard</h1>
       
       {/* Database fix message */}
       {hasError && (

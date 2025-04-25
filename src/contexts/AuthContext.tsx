@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const { user } = await signIn(email, password);
       setUser(user);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       throw error;
     }
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const { user } = await signUp(email, password);
       setUser(user);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       throw error;
     }
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await signOut();
       setUser(null);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       throw error;
     }
