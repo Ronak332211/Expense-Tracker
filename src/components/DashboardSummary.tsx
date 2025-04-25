@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowUp, ArrowDown, DollarSign } from "lucide-react";
 import { Transaction } from "@/lib/supabase";
@@ -18,8 +17,8 @@ export default function DashboardSummary({ transactions }: DashboardSummaryProps
     .filter(transaction => transaction.type === "expense")
     .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
-  // Calculate balance as income minus expenses
-  const balance = totalIncome - totalExpenses;
+  // Calculate balance as income plus expenses
+  const balance = totalIncome + totalExpenses;
 
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
