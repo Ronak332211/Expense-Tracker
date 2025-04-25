@@ -1,12 +1,13 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { Transaction, TransactionInput } from "@/lib/supabase";
+import { Database } from "@/integrations/supabase/types";
 
 export const getTransactions = async (): Promise<Transaction[]> => {
   const { data, error } = await supabase
-    .from("transactions")
-    .select("*")
-    .order("date", { ascending: false });
+    .from('transactions')
+    .select('*')
+    .order('date', { ascending: false });
 
   if (error) {
     console.error("Error fetching transactions:", error);
@@ -18,7 +19,7 @@ export const getTransactions = async (): Promise<Transaction[]> => {
 
 export const addTransaction = async (transaction: TransactionInput): Promise<Transaction> => {
   const { data, error } = await supabase
-    .from("transactions")
+    .from('transactions')
     .insert([transaction])
     .select()
     .single();
@@ -33,9 +34,9 @@ export const addTransaction = async (transaction: TransactionInput): Promise<Tra
 
 export const deleteTransaction = async (id: string): Promise<void> => {
   const { error } = await supabase
-    .from("transactions")
+    .from('transactions')
     .delete()
-    .eq("id", id);
+    .eq('id', id);
 
   if (error) {
     console.error("Error deleting transaction:", error);
