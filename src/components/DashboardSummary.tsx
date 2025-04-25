@@ -8,14 +8,17 @@ interface DashboardSummaryProps {
 }
 
 export default function DashboardSummary({ transactions }: DashboardSummaryProps) {
+  // Calculate total income
   const totalIncome = transactions
     .filter(transaction => transaction.type === "income")
-    .reduce((sum, transaction) => sum + transaction.amount, 0);
+    .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
+  // Calculate total expenses
   const totalExpenses = transactions
     .filter(transaction => transaction.type === "expense")
-    .reduce((sum, transaction) => sum + transaction.amount, 0);
+    .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
+  // Calculate balance as income minus expenses
   const balance = totalIncome - totalExpenses;
 
   return (
